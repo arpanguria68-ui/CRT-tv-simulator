@@ -1,0 +1,255 @@
+{
+  "channels": [
+    {
+      "id": "CH1",
+      "name": "WXYZ-TV (CH 7)"
+    },
+    {
+      "id": "CH2",
+      "name": "KROQ (CH 13)"
+    },
+    {
+      "id": "CH3",
+      "name": "RETRO-TV (CH 3)"
+    },
+    {
+      "id": "CH1771781665009",
+      "name": "HELLO"
+    },
+    {
+      "id": "CH1771782234674",
+      "name": "HELLO"
+    },
+    {
+      "id": "CH1771782375602",
+      "name": "TEST BROWSER CH"
+    }
+  ],
+  "programs": [
+    {
+      "id": "1THC98BWA",
+      "title": "MORNING NEWS BROADCAST",
+      "type": "news",
+      "startTime": "06:00",
+      "duration": 60,
+      "status": "completed",
+      "channelId": "CH1"
+    },
+    {
+      "id": "AEHCUPTDD",
+      "title": "CARTOON BLOCK - TOM & JERRY",
+      "type": "content",
+      "startTime": "07:00",
+      "duration": 30,
+      "url": "https://youtube.com/watch?v=sample1",
+      "status": "completed",
+      "channelId": "CH1"
+    },
+    {
+      "id": "HVDI321ZD",
+      "title": "COMMERCIAL BREAK - COCA COLA",
+      "type": "ad",
+      "startTime": "07:30",
+      "duration": 2,
+      "status": "completed",
+      "channelId": "CH1"
+    },
+    {
+      "id": "IIIMEPWB4",
+      "title": "SITCOM - FRIENDS S01E01",
+      "type": "content",
+      "startTime": "07:32",
+      "duration": 28,
+      "url": "https://youtube.com/watch?v=sample2",
+      "status": "playing",
+      "channelId": "CH1"
+    },
+    {
+      "id": "JKGUFMQHO",
+      "title": "STATION ID BUMPER",
+      "type": "bumper",
+      "startTime": "08:00",
+      "duration": 30,
+      "status": "scheduled",
+      "channelId": "CH1",
+      "url": "https://youtu.be/W8vMxx_yGLU"
+    },
+    {
+      "id": "89AS7KP6X",
+      "title": "MORNING SHOW - LIVE",
+      "type": "content",
+      "startTime": "08:01",
+      "duration": 59,
+      "url": "https://youtube.com/watch?v=live1",
+      "status": "scheduled",
+      "channelId": "CH1"
+    },
+    {
+      "id": "RVIVDFSRC",
+      "title": "COMMERCIAL BLOCK",
+      "type": "ad",
+      "startTime": "09:00",
+      "duration": 5,
+      "status": "scheduled",
+      "channelId": "CH1"
+    },
+    {
+      "id": "R3M015F7U",
+      "channelId": "CH1",
+      "title": "RETRO CARTOON",
+      "type": "news",
+      "startTime": "12:04",
+      "duration": 30,
+      "status": "scheduled",
+      "url": "https://youtu.be/9GAdxD9xiho"
+    },
+    {
+      "id": "VRYY7LAV4",
+      "channelId": "CH1",
+      "title": "LATE NIGHT SHOW",
+      "type": "content",
+      "startTime": "11:04",
+      "duration": 30,
+      "status": "scheduled"
+    },
+    {
+      "id": "3W7N2R6L4",
+      "channelId": "CH1",
+      "title": "MIDNIGHT MOVIE",
+      "type": "content",
+      "startTime": "11:34",
+      "duration": 30,
+      "status": "scheduled"
+    },
+    {
+      "id": "CA59BCY87",
+      "channelId": "CH1",
+      "title": "VIDEO TEST",
+      "type": "content",
+      "startTime": "12:34",
+      "duration": 30,
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "status": "scheduled"
+    },
+    {
+      "id": "HLMWA8Z09",
+      "channelId": "CH1",
+      "title": "VIDEO TEST FINAL 2",
+      "type": "content",
+      "startTime": "01:12",
+      "duration": 30,
+      "url": "https://youtu.be/W8vMxx_yGLU",
+      "status": "scheduled"
+    },
+    {
+      "id": "QW1OGO9ER",
+      "channelId": "CH1",
+      "title": "SYNC TEST",
+      "type": "content",
+      "startTime": "01:39",
+      "duration": 30,
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "status": "scheduled"
+    },
+    {
+      "id": "HSZY4H93C",
+      "channelId": "CH1",
+      "title": "SAM HYDE",
+      "type": "bumper",
+      "startTime": "04:00",
+      "duration": 30,
+      "url": "https://youtu.be/W8vMxx_yGLU",
+      "status": "scheduled"
+    },
+    {
+      "id": "6GL6K56Y0",
+      "channelId": "CH1",
+      "title": "PARALLEL VIDEO TEST",
+      "type": "content",
+      "startTime": "01:55",
+      "duration": 30,
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "status": "scheduled"
+    },
+    {
+      "id": "PX3WW9678",
+      "channelId": "CH1",
+      "title": "HELLP",
+      "type": "content",
+      "startTime": "01:00",
+      "duration": 30,
+      "url": "https://youtu.be/W8vMxx_yGLU",
+      "status": "scheduled"
+    },
+    {
+      "id": "XB9F8QU1T",
+      "channelId": "CH1",
+      "title": "NEW CHANNEL TEST",
+      "type": "content",
+      "startTime": "02:06",
+      "duration": 30,
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "status": "scheduled"
+    },
+    {
+      "id": "QAJDBIQMA",
+      "channelId": "CH2",
+      "title": "NEW CHANNEL TEST",
+      "type": "content",
+      "startTime": "02:06",
+      "duration": 30,
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "status": "scheduled"
+    },
+    {
+      "id": "RKOSCC9L3",
+      "channelId": "CH3",
+      "title": "HEL",
+      "type": "content",
+      "startTime": "02:00",
+      "duration": 30,
+      "url": "https://youtu.be/W8vMxx_yGLU",
+      "status": "scheduled"
+    },
+    {
+      "id": "35WXDL2QW",
+      "channelId": "CH3",
+      "title": "SONG OG",
+      "type": "content",
+      "startTime": "03:00",
+      "duration": 30,
+      "url": "https://youtu.be/e7HO62Hmkg4?list=RDe7HO62Hmkg4",
+      "status": "scheduled"
+    },
+    {
+      "id": "4H78M9HA4",
+      "channelId": "CH1",
+      "title": "LENGTH TEST",
+      "type": "content",
+      "startTime": "11:00",
+      "duration": 4,
+      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "status": "scheduled"
+    },
+    {
+      "id": "CRCL60D5Q",
+      "channelId": "CH1",
+      "title": "CRT TEST",
+      "type": "content",
+      "startTime": "23:05",
+      "duration": 30,
+      "url": "https://www.youtube.com/watch?v=6v2L2UGZJAM",
+      "status": "scheduled"
+    },
+    {
+      "id": "O68OLZ8UX",
+      "channelId": "CH1",
+      "title": "CRT TEST",
+      "type": "content",
+      "startTime": "23:10",
+      "duration": 30,
+      "url": "https://www.youtube.com/watch?v=6v2L2UGZJAM",
+      "status": "scheduled"
+    }
+  ]
+}

@@ -1,0 +1,327 @@
+/* 1980s Terminal Fonts */
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --radius: 0rem;
+  --background: #0a0a0a;
+  --foreground: #33ff33;
+  --card: #0d0d0d;
+  --card-foreground: #33ff33;
+  --popover: #0a0a0a;
+  --popover-foreground: #33ff33;
+  --primary: #33ff33;
+  --primary-foreground: #0a0a0a;
+  --secondary: #1a1a1a;
+  --secondary-foreground: #33ff33;
+  --muted: #1a1a1a;
+  --muted-foreground: #22aa22;
+  --accent: #ff6600;
+  --accent-foreground: #0a0a0a;
+  --destructive: #ff3333;
+  --border: #33ff33;
+  --input: #1a1a1a;
+  --ring: #33ff33;
+}
+
+/* CRT Monitor Effects */
+.crt-container {
+  position: relative;
+  min-height: 100vh;
+  background: #0a0a0a;
+  overflow: hidden;
+}
+
+.crt-container::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.25) 50%
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.03),
+      rgba(0, 255, 0, 0.02),
+      rgba(0, 0, 255, 0.03)
+    );
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.crt-container::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    rgba(0, 0, 0, 0.4) 90%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Screen flicker animation */
+@keyframes flicker {
+  0% { opacity: 0.97; }
+  5% { opacity: 0.95; }
+  10% { opacity: 0.97; }
+  15% { opacity: 0.94; }
+  20% { opacity: 0.98; }
+  50% { opacity: 0.95; }
+  80% { opacity: 0.98; }
+  100% { opacity: 0.97; }
+}
+
+.crt-flicker {
+  animation: flicker 0.15s infinite;
+}
+
+/* Text glow effect */
+.text-glow {
+  text-shadow: 
+    0 0 5px #33ff33,
+    0 0 10px #33ff33,
+    0 0 20px #33ff33;
+}
+
+.text-glow-amber {
+  text-shadow: 
+    0 0 5px #ffb000,
+    0 0 10px #ffb000,
+    0 0 20px #ffb000;
+}
+
+.text-glow-red {
+  text-shadow: 
+    0 0 5px #ff3333,
+    0 0 10px #ff3333,
+    0 0 20px #ff3333;
+}
+
+/* Scanline effect */
+.scanlines {
+  position: relative;
+}
+
+.scanlines::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15),
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+}
+
+/* Terminal box styling */
+.terminal-box {
+  border: 2px solid #33ff33;
+  background: rgba(10, 10, 10, 0.95);
+  box-shadow: 
+    0 0 10px rgba(51, 255, 51, 0.3),
+    inset 0 0 20px rgba(51, 255, 51, 0.05);
+}
+
+.terminal-box-amber {
+  border: 2px solid #ffb000;
+  background: rgba(10, 10, 10, 0.95);
+  box-shadow: 
+    0 0 10px rgba(255, 176, 0, 0.3),
+    inset 0 0 20px rgba(255, 176, 0, 0.05);
+}
+
+/* Blinking cursor */
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.cursor-blink::after {
+  content: '█';
+  animation: blink 1s infinite;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+  border: 1px solid #33ff33;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #33ff33;
+  border: 2px solid #0a0a0a;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #55ff55;
+}
+
+/* Input styling */
+input, textarea, select {
+  font-family: 'Share Tech Mono', 'VT323', monospace !important;
+  background: #0a0a0a !important;
+  border: 2px solid #33ff33 !important;
+  color: #33ff33 !important;
+  box-shadow: inset 0 0 10px rgba(51, 255, 51, 0.1);
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none !important;
+  box-shadow: 
+    0 0 10px rgba(51, 255, 51, 0.5),
+    inset 0 0 10px rgba(51, 255, 51, 0.2) !important;
+}
+
+/* Button styling */
+button {
+  font-family: 'Share Tech Mono', 'VT323', monospace !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: all 0.1s ease;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Table styling */
+table {
+  border-collapse: collapse;
+}
+
+td, th {
+  border: 1px solid #33ff33;
+  padding: 8px;
+}
+
+/* Grid lines for EPG */
+.epg-grid {
+  display: grid;
+  grid-template-columns: 120px repeat(24, 1fr);
+  gap: 1px;
+  background: #1a1a1a;
+}
+
+.epg-cell {
+  background: #0a0a0a;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.epg-cell:hover {
+  background: #1a331a;
+}
+
+/* Status indicators */
+.status-online {
+  color: #33ff33;
+  text-shadow: 0 0 10px #33ff33;
+}
+
+.status-warning {
+  color: #ffb000;
+  text-shadow: 0 0 10px #ffb000;
+}
+
+.status-error {
+  color: #ff3333;
+  text-shadow: 0 0 10px #ff3333;
+}
+
+/* Progress bar */
+.progress-bar {
+  height: 20px;
+  border: 2px solid #33ff33;
+  background: #0a0a0a;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #33ff33 0%, #55ff55 100%);
+  box-shadow: 0 0 10px #33ff33;
+  transition: width 0.3s ease;
+}
+
+/* Loading animation */
+@keyframes loading {
+  0% { content: '▓▒░'; }
+  33% { content: '░▓▒'; }
+  66% { content: '▒░▓'; }
+  100% { content: '▓▒░'; }
+}
+
+.loading-text::after {
+  content: '▓▒░';
+  animation: loading 0.5s infinite;
+}
+
+/* Phosphor colors */
+.phosphor-green {
+  color: #33ff33;
+}
+
+.phosphor-amber {
+  color: #ffb000;
+}
+
+.phosphor-red {
+  color: #ff3333;
+}
+
+.phosphor-cyan {
+  color: #00ffff;
+}
+
+/* Border animations */
+@keyframes border-pulse {
+  0%, 100% { border-color: #33ff33; }
+  50% { border-color: #55ff55; }
+}
+
+.border-pulse {
+  animation: border-pulse 2s infinite;
+}
+
+/* Noise overlay */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.03;
+  z-index: 9997;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}

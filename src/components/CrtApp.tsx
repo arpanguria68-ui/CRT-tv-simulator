@@ -222,7 +222,23 @@ export default function App({ programs, channels, currentTime, onClose }: CrtApp
         setChannel(newChannel);
         setTimeout(() => {
             setIsCollapsing(false);
-            showTvOSD(`CH ${newChannel.toString().padStart(2, '0')}`);
+
+            let displayString = `CH ${newChannel.toString().padStart(2, '0')}`;
+            if (newChannel <= channels.length) {
+                const chObj = channels[newChannel - 1];
+                const match = chObj.name.match(/\((CH\s*\d+)\)/i);
+                if (match) {
+                    displayString = match[1];
+                } else {
+                    displayString = chObj.name.substring(0, 8); // just show start of name
+                }
+            } else if (newChannel === channels.length + 1) {
+                displayString = 'AV / VCR';
+            } else if (newChannel === channels.length + 2) {
+                displayString = 'AUX / VIS';
+            }
+
+            showTvOSD(displayString);
         }, 150);
     };
 

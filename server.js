@@ -223,25 +223,24 @@ initDB().then(() => {
     });
 
     // --- UTILS API ---
-    app.post('/api/video-info', (req, res) => {
+    app.post('/api/video-info', async (req, res) => {
         const { url } = req.body;
         if (!url || (!url.includes('youtube.com') && !url.includes('youtu.be'))) {
             return res.json({ lengthSeconds: null });
         }
 
-        https.get(url, (response) => {
-            let data = '';
-            response.on('data', chunk => data += chunk);
-            response.on('end', () => {
-                const match = data.match(/"lengthSeconds":"(\d+)"/);
-                if (match && match[1]) {
-                    return res.json({ lengthSeconds: parseInt(match[1]) });
-                }
-                res.json({ lengthSeconds: null });
-            });
-        }).on('error', () => {
+        try {
+            const response = await fetch(url);
+            const html = await response.text();
+            const match = html.match(/"lengthSeconds":"(\d+)"/);
+            if (match && match[1]) {
+                return res.json({ lengthSeconds: parseInt(match[1]) });
+            }
             res.json({ lengthSeconds: null });
-        });
+        } catch (error) {
+            console.error('Failed to fetch video info:', error);
+            res.json({ lengthSeconds: null });
+        }
     });
 
     app.listen(port, () => console.log(`TV Simulator Backend running on http://localhost:${port}`));

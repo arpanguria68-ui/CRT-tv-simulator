@@ -84,6 +84,7 @@ function App() {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const [newProgramChannel, setNewProgramChannel] = useState('');
+  const [newProgramShift, setNewProgramShift] = useState(false);
 
   // Channel Management State
   const [showChannelDialog, setShowChannelDialog] = useState(false);
@@ -115,7 +116,22 @@ function App() {
 
   const nextMonitoredProgram = React.useMemo(() => {
     if (!monitoredChannelId) return null;
-    const channelProgs = programs.filter(p => p.channelId === monitoredChannelId).sort((a, b) => a.startTime.localeCompare(b.startTime));
+    const channelProgs = programs.filter(p => p.channelId === monitoredChannelId);
+
+    // Sort chronologically relative to current time rather than pure lexical
+    channelProgs.sort((a, b) => {
+      const getRelativeMs = (tStr: string) => {
+        const [h, m] = tStr.split(':').map(Number);
+        const d = new Date(currentTime);
+        d.setHours(h, m, 0, 0);
+        if (h < currentTime.getHours() && (currentTime.getHours() - h) > 12) {
+          d.setDate(d.getDate() + 1);
+        }
+        return d.getTime();
+      };
+      return getRelativeMs(a.startTime) - getRelativeMs(b.startTime);
+    });
+
     if (!channelProgs.length) return null;
 
     if (currentMonitoredProgram) {
@@ -134,8 +150,6 @@ function App() {
       }) || null;
     }
   }, [programs, monitoredChannelId, currentTime, currentMonitoredProgram]);
-
-  // Helper for YouTube Embeds removed to SyncedVideoPlayer
 
   // Fetch initial channels and programs from database
   useEffect(() => {
@@ -209,10 +223,10 @@ function App() {
     setShowAddDialog(true);
   };
 
-  const checkVideoDurationAndPrompt = async (): Promise<{ duration: number, shiftSchedule: boolean }> => {
+  const fetchVideoDuration = async (): Promise<number> => {
     const userDuration = parseInt(newProgramDuration.toString()) || 30;
     if (!newProgramUrl || (!newProgramUrl.includes('youtube.com') && !newProgramUrl.includes('youtu.be'))) {
-      return { duration: userDuration, shiftSchedule: false };
+      return userDuration;
     }
 
     try {
@@ -224,21 +238,13 @@ function App() {
       const data = await res.json();
 
       if (data.lengthSeconds) {
-        const actualMins = Math.ceil(data.lengthSeconds / 60);
-        if (actualMins !== userDuration) {
-          const shift = window.confirm(
-            `The YouTube video is exactly ${actualMins} minutes long, but you scheduled it for ${userDuration} minutes.\n\nDo you want to adjust the block to ${actualMins} minutes and automatically shift the rest of the schedule? (Playlist Mode)`
-          );
-          if (shift) {
-            return { duration: actualMins, shiftSchedule: true };
-          }
-        }
+        return Math.ceil(data.lengthSeconds / 60);
       }
     } catch (e) {
       console.error(e);
     }
 
-    return { duration: userDuration, shiftSchedule: false };
+    return userDuration;
   };
 
   const handleAddProgram = async () => {
@@ -247,7 +253,7 @@ function App() {
       return;
     }
 
-    const durationInfo = await checkVideoDurationAndPrompt();
+    const duration = await fetchVideoDuration();
 
     const newProgram = {
       id: generateId(),
@@ -255,10 +261,10 @@ function App() {
       title: newProgramTitle.toUpperCase(),
       type: newProgramType,
       startTime: newProgramTime,
-      duration: durationInfo.duration,
+      duration: duration,
       url: newProgramUrl || undefined,
       status: 'scheduled',
-      shiftSchedule: durationInfo.shiftSchedule
+      shiftSchedule: newProgramShift
     };
 
     try {
@@ -278,7 +284,7 @@ function App() {
         addLog(`SCHEDULED: ${savedProgram.title} AT ${newProgramTime}`);
         toast.success(`PROGRAM SCHEDULED: ${savedProgram.title}`);
 
-        if (durationInfo.shiftSchedule) {
+        if (newProgramShift) {
           // If we shifted the schedule, we need to refresh all programs from the backend
           // so the frontend grid updates its layout.
           fetch('http://localhost:3001/api/programs')
@@ -303,17 +309,17 @@ function App() {
     if (!newProgramTitle || !editingProgramId) return;
 
     const existing = programs.find(p => p.id === editingProgramId);
-    const durationInfo = await checkVideoDurationAndPrompt();
+    const duration = await fetchVideoDuration();
 
     const updatedData = {
       channelId: newProgramChannel,
       title: newProgramTitle.toUpperCase(),
       type: newProgramType,
       startTime: newProgramTime,
-      duration: durationInfo.duration,
+      duration: duration,
       url: newProgramUrl || undefined,
       status: existing?.status || 'scheduled',
-      shiftSchedule: durationInfo.shiftSchedule
+      shiftSchedule: newProgramShift
     };
 
     try {
@@ -1187,9 +1193,17 @@ function App() {
                       <div className="absolute inset-0 flex flex-col items-center justify-center">
                         {nextMonitoredProgram.url ? (
                           <>
-                            <div className="absolute inset-0 opacity-40 pointer-events-none saturate-50 sepia mix-blend-screen">
-                              <SyncedVideoPlayer key={`next-${nextMonitoredProgram.id}`} program={nextMonitoredProgram} currentTime={currentTime} />
-                            </div>
+                            {(() => {
+                              const match = nextMonitoredProgram.url.match(/[?&]v=([^&]+)/) || nextMonitoredProgram.url.match(/youtu\.be\/([^?]+)/);
+                              const thumbUrl = match ? `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg` : null;
+                              return thumbUrl ? (
+                                <img
+                                  src={thumbUrl}
+                                  className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-screen saturate-50 sepia"
+                                  alt="Next Program Thumbnail"
+                                />
+                              ) : null;
+                            })()}
                             <div className="z-10 flex flex-col items-center justify-center opacity-90 p-4 bg-black/70 border border-amber-500/50 rounded shadow-lg backdrop-blur-sm">
                               <div className="text-4xl mb-2">⏭️</div>
                               <div className="text-lg font-bold text-center text-amber-400">
@@ -1404,6 +1418,19 @@ function App() {
                   placeholder="YOUTUBE URL..."
                 />
               </div>
+            </div>
+
+            <div className="flex items-center space-x-2 mt-2 bg-black/50 p-2 border border-green-900">
+              <input
+                type="checkbox"
+                id="shiftSchedule"
+                checked={newProgramShift}
+                onChange={(e) => setNewProgramShift(e.target.checked)}
+                className="w-4 h-4 accent-green-600 bg-black border-green-500"
+              />
+              <label htmlFor="shiftSchedule" className="text-xs text-green-400 font-bold cursor-pointer select-none">
+                SHIFT SUBSEQUENT SCHEDULE (PLAYLIST MODE)
+              </label>
             </div>
           </div>
 
